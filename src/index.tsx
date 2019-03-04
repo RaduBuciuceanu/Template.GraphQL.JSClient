@@ -1,20 +1,20 @@
 import React, {Component, ReactNode} from 'react';
 import ReactDOM from 'react-dom';
-import gql from "graphql-tag";
 import {ajaxPost} from "rxjs/internal-compatibility";
 import {tap} from "rxjs/operators";
 
 const httpEndpoint = "http://localhost:5000/graphql";
-const wsEndpoint = "ws://localhost:5000/graphql";
+const wsEndpoint = "ws://localhost:5000/graphql-ws";
+const protocol = "graphql-ws";
 
-const mutation = gql`
+const mutation = `
         mutation {
             createMessage(input: {author: "Author", content: "Content"}) {
               author
             }
         }`;
 
-const subscription = gql`
+const subscription = `
         subscription {
             messageCreated(parameter: {author: "Author"}) {
               author
@@ -55,19 +55,24 @@ class Manager extends Component<Props, State> {
     };
 
     private executeMutation(): void {
-        ajaxPost(httpEndpoint, {query: mutation}).pipe(tap((response) => console.log(response))).subscribe();
+        const headers = {
+            "Content-Type": "application/json"
+        };
+
+        ajaxPost(httpEndpoint, {query: mutation}, headers)
+            .pipe(tap((response: any) => console.log(response))).subscribe();
     };
 
     private executeSubscription(): void {
-        const socket = new WebSocket(wsEndpoint, 'graphql-ws');
+        const socket = new WebSocket(wsEndpoint, protocol);
 
         socket.onopen = () => {
             this.appendLine("Connection opened.");
-            socket.send(JSON.stringify({type: 'connection_init'}));
+            socket.send(JSON.stringify({query: subscription}));
         };
 
         socket.onmessage = (event: MessageEvent) => {
-            this.appendLine("Message received.");
+            this.appendLine(`Message received: ${event.data}.`);
         };
     };
 }
