@@ -1,0 +1,36 @@
+{
+  "name": "template.graphql.jsclient",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom --passWithNoTests",
+    "eject": "react-scripts eject"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.2",
+    "@types/socket.io-client": "^1.4.32",
+    "@types/ws": "^6.0.1",
+    "ajax": "0.0.4",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.1",
+    "react": "^16.6.0",
+    "react-dom": "^16.8.3",
+    "react-scripts": "2.1.0",
+    "rxjs": "^6.4.0",
+    "socket.io": "^2.2.0",
+    "typescript": "^3.3.3333",
+    "ws": "^6.1.4"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
